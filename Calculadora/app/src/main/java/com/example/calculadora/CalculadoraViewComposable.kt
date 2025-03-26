@@ -114,7 +114,7 @@ class CalculadoraViewComposable {
                 {
                     Text("0")
                 }
-                Button(onClick = {calculate(calculadora)},
+                Button(onClick = {calculadora.display = calculate(calculadora)},
                     modifier = Modifier.weight(1f))
                 {
                     Text("=")
@@ -156,12 +156,21 @@ fun getOperator(calculadora: Calculadora, operator: String) {
     calculadora.startedSecondNumber = true
 }
 
-fun calculate(calculadora: Calculadora) {
-    when (calculadora.operator) {
-        "+" -> calculadora.display = (calculadora.firstNumber + calculadora.secondNumber).toString()
-        "-" -> calculadora.display = (calculadora.firstNumber - calculadora.secondNumber).toString()
-        "*" -> calculadora.display = (calculadora.firstNumber * calculadora.secondNumber).toString()
-        "/" -> calculadora.display = (calculadora.firstNumber / calculadora.secondNumber).toString()
-        else -> println("Operação Inválida")
+fun calculate(calculadora: Calculadora): String {
+    calculadora.secondNumber = calculadora.display.toInt()
+
+    if (calculadora.operator == "+") {
+        return (calculadora.firstNumber + calculadora.secondNumber).toString()
+    } else if (calculadora.operator == "-") {
+        return (calculadora.firstNumber - calculadora.secondNumber).toString()
+    } else if (calculadora.operator == "*") {
+        return (calculadora.firstNumber * calculadora.secondNumber).toString()
+    } else if (calculadora.operator == "/") {
+        if (calculadora.secondNumber == 0) {
+            return "0"
+        }
+        return (calculadora.firstNumber / calculadora.secondNumber).toString()
+    } else {
+        return "0"
     }
 }
